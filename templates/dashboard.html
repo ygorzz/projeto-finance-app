@@ -1,0 +1,197 @@
+{% extends "layout.html"%}
+
+{% block main %}
+
+<section class="container pt-3">
+    <div class="pb-2">
+        <h2>Bem vindo, {{username}} - Resumo do Mês</h2>
+    </div>
+    <div class="row justify-content-between pb-3 ">
+        <form action="/dashboard" method="GET">
+            <div class="row pb-3">
+                <div class="col-4">
+                    <select class="form-select" name="select-month">
+                        <option selected disabled value="{{current_date.month}}">{{current_date.month}}</option>
+                        <option value="1">Janeiro</option>
+                        <option value="2">Fevereiro</option>
+                        <option value="3">Março</option>
+                        <option value="4">Abril</option>
+                        <option value="5">Maio</option>
+                        <option value="6">Junho</option>
+                        <option value="7">Julho</option>
+                        <option value="8">Agosto</option>
+                        <option value="9">Setembro</option>
+                        <option value="10">Outubro</option>
+                        <option value="11">Novembro</option>
+                        <option value="12">Dezembro</option>
+                    </select>
+                </div>
+                <div class="col-4">
+                    <select class="form-select" name="select-year">
+                        <option selected disabled value="{{current_date.year}}">{{current_date.year}}</option>
+                        {% for item in years %}
+                        <option value="{{item.year}}">{{item.year}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-4">
+                    <div class="input-group">
+                        <input type="submit" class="form-control input-filter my-btn" value="Filtrar">
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="col-12 col-md-4">
+            <div class="card border-0 shadow-lg">
+                <div class="card-body">
+                    <div class="card-text text-destaque text-center py-3">
+                        {% if total_incomes %}
+                        <h3 class="mb-0">{{brl(total_incomes)}}</h3>
+                        {% else %}
+                        <h3 class="mb-0">{{brl(0)}}</h3>
+                        {% endif %}
+                        <p class="mb-0">Receitas</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="card border-0 shadow-lg">
+                <div class="card-body">
+                    <div class="card-text text-success text-center py-3">
+                        {% set total_cash = total_incomes + total_expenses %}
+                        {% if total_cash != 0 %}
+                        <h3 class="mb-0">{{brl(total_cash)}}</h3>
+                        {% else %}
+                        <h3 class="mb-0">{{brl(0)}}</h3>
+                        {% endif %}
+                        <p class="mb-0">Saldo total</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="card border-0 shadow-lg">
+                <div class="card-body">
+                    <div class="card-text text-center text-danger py-3">
+                        {% if total_expenses %}
+                        <h3 class="mb-0">{{brl(total_expenses)}}</h3>
+                        {% else %}
+                        <h3 class="mb-0">{{brl(0)}}</h3>
+                        {% endif %}
+                        <p class="mb-0">Despesas</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-between g-4 mb-4">
+        <div class="col-12 col-md-4">
+            <div class="card border-0 shadow-lg" style="min-height: 360px;">
+                <div class="card-body">
+                    <div class="card-title text-center pb-2">
+                        <h5>Gastos por Categoria</h5>
+                    </div>
+                    <div class="card-text">
+                        <div style="max-height: 250px;" class="d-flex justify-content-center align-items-center"
+                            id="message">
+                            <canvas id="meu-grafico"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="card border-0 shadow-lg" style="min-height: 360px;">
+                <div class="card-body">
+                    <div class="card-title pb-2">
+                        <h5>Últimas Transações</h5>
+                    </div>
+                    <div class="card-text">
+                        <div class="table-responsive">
+
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th scope="col">Descrição</th>
+                                        <th scope="col">Categoria</th>
+                                        <th scope="col">Valor</th>
+                                        <th scope="col">Data</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if last_transactions %}
+                                    {% for transaction in last_transactions %}
+                                    {% if transaction.amount > 0 %}
+                                    <tr class="table-success">
+                                        <td><i class="bi bi-arrow-up"></i></td>
+                                        <td>{{transaction.name}}</td>
+                                        <td>{{transaction.amount}}</td>
+                                        <td>{{transaction.date}}</td>
+                                    </tr>
+                                    {% else %}
+                                    <tr class="table-danger">
+                                        <td><i class="bi bi-arrow-down"></i></td>
+                                        <td>{{transaction.name}}</td>
+                                        <td>{{transaction.amount}}</td>
+                                        <td>{{transaction.date}}</td>
+                                    </tr>
+                                    {% endif %}
+                                    {% endfor %}
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="4" class="pb-0">Ainda não há transações</p>
+                                    </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="card border-0 shadow-lg" style="min-height: 360px;">
+                <div class="card-body">
+                    <div class="card-title pb-2">
+                        <h5>Alertas</h5>
+                    </div>
+                    <div class="card-subtitle pb-2">
+                        <h6>Orçamentos</h6>
+                    </div>
+                    <div class="card-text">
+                        {% if budgets %}
+                        {% for budget in budgets %}
+                        {% set percentage = budget.percentage %}
+                        {% set width = percentage if percentage <= 100 else 100 %} <div
+                            class="card border-card-dashboard p-0 mb-1 h-100" style="border-color: {{budget.code}}">
+                            <div class="card-body">
+                                <div class="card-text d-flex justify-content-between">
+                                    <h6 class="mb-0 text-truncate">{{budget.name}}</h6>
+                                    <p class="mb-0">{{brl(budget.total_spent)}}/{{"%.2f"|format(budget.amount)}}</p>
+                                </div>
+                                <div class="progress" role="progressbar">
+                                    <!-- Lógica para mostrar casa decimal caso ela seja maior que 0 e cor da barra -->
+                                    <div class="progress-bar {{'bg-danger' if percentage >= 80 else ('bg-warning' if percentage >=30 else 'bg-success' if percentage < 30)}}"
+                                        style="width: {{width}}%"> {% if percentage % 1 != 0 %} {{width | round(1)}}% {%
+                                        else %} {{width | int}}% {% endif %}</div>
+                                </div>
+                            </div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <p class="mb-0">Não há alertas nos seus orçamentos</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+
+{% endblock%}
+
+{% block script %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{url_for('static', filename='../static/js/modules/chart.js')}}"></script>
+{% endblock %}

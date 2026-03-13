@@ -1,0 +1,87 @@
+{% extends "layout.html"%}
+
+{% block main %}
+
+<!-- Exibição das categorias -->
+<section class="p-5 container">
+    <h2 class="pb-3">Minhas Categorias</h2>
+    <div class="row">
+        <div class="col-12 col-md-9">
+            <div class="card shadow-lg border-0" style="max-width: 1200px;">
+                <div class="card-body" style="max-height: 450px; overflow-y: auto;">
+
+                    <div class="row">
+                        {% if categories %}
+                        {% for category in categories %}
+                            <div class="card mb-3 mx-3 col-11 col-md-3 border-card-category"
+                                style="border-color: {{category.code}};">
+                                <div class="card-body d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-text">{{category.name}}</h6>
+                                    </div>
+                                    <div>
+                                        <button class="btn border-0 btn-delete" id="btn-delete" data-id="{{category.id}}"><i class="bi bi-trash3-fill"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        {% else %}
+                            <p class="mb-0">Ainda não há categorias</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-3">
+            <div class="card border-0 shadow-lg">
+                <div class="card-body">
+                    <div class="card-title pb-2">
+                        <h5>Nova Categoria</h5>
+                    </div>
+                    <form action="/categories" method="post" id="form-ctgs">
+                        <div class=" mb-3">
+                            <div class="input-group">
+                                <span class="input-group-text">Nome</span>
+                                <input type="text" aria-label="Valor" id="ctg-name" class="form-control {% if errors.category %} is-invalid {% endif %}"
+                                placeholder="Ex: Moradia" name="category">
+                                <!-- Essa div de js-message é controlada via JS -->
+                                <!-- Só aparece quando add a class 'is-invalid' no input -->
+                                <div class="invalid-feedback js-message-error">
+                                    {% if errors.category %}
+                                        {{errors.category}}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pb-3">
+                            <label class="pb-2">Cor</label>
+                            <div class="d-flex flex-wrap gap-2">
+                                {% for color in colors %}
+                                <input type="radio" class="btn-check" name="category_color" id="{{color.id}}"
+                                value="{{color.code}}" autocomplete="off">
+                                <label class="btn btn-outline-primary rounded-circle p-3 shadow-sm" for="{{color.id}}"
+                                    style="background-color: {{color.code}}; border: 2px solid {{color.code}};"></label>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="d-flex align-items-center">
+                            <div class="mx-auto">
+                                <button type="button" class="btn btn-danger my-btn" id="btn-cancel">Cancelar</button>
+                                <button type="submit" class="btn btn-success my-btn">Criar
+                                    Categoria</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+{% endblock%}
+
+{% block script %}
+<script type="module" src="{{url_for('static', filename='../static/js/modules/categories.js')}}"></script>
+{% endblock %}

@@ -1,0 +1,173 @@
+/* Define variáveis */
+:root {
+    --blue_finance: #1B263B;
+    --green_finance: #2D6A4F;
+    --green_success: #52B788;
+    --red_finance: #E63946;
+}
+
+/* Altera classes nativas do bootstrap para as minhas cores personalizadas */
+.bg-primary {
+    background-color: var(--blue_finance) !important;
+}
+
+.bg-success {
+    background-color: var(--green_finance) !important;
+}
+
+.bg-danger {
+    background-color: var(--red_finance) !important;
+}
+
+.bg-destaque {
+    background-color: var(--green_success);
+}
+
+/* Altera cor e borda dos btns */
+.btn-primary {
+    background-color: var(--blue_finance) !important;
+    border-color: var(--blue_finance) !important;
+}
+
+.btn-success {
+    background-color: var(--green_finance) !important;
+    border-color: var(--green_finance) !important;
+}
+
+.btn-danger {
+    background-color: var(--red_finance) !important;
+    border-color: var(--red_finance) !important;
+}
+
+.btn-destaque {
+    background-color: var(--green_success);
+    border-color: var(--green_success);
+}
+
+/* Altera a cor dos textos, se necessário usar */
+.text-primary {
+    color: var(--blue_finance) !important;
+}
+
+.text-success {
+    color: var(--green_finance) !important;
+}
+
+.text-danger {
+    color: var(--red_finance) !important;
+}
+
+.text-destaque {
+    color: var(--green_success);
+}
+
+body,
+html {
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    color: #333
+}
+
+/* MENU */
+.navbar {
+    padding: 30px 10px;
+}
+
+.navbar-nav {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-nav .nav-link {
+    color: white;
+    text-decoration: none;
+    padding: 8px 15px;
+    display: block;
+    transition: all 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: white;
+    transform: translateY(-5px);
+}
+
+.navbar-nav .nav-link.active {
+    background-color: var(--green_finance);
+    border-radius: 10px;
+    color: white;
+}
+
+.navbar-brand,
+.navbar-brand:hover,
+.navbar-brand:focus {
+    color: white;
+}
+
+.navbar-toggler {
+    background-color: white;
+}
+
+/* Minhas próprias classes */
+.input-filter{
+    background-color: var(--blue_finance);
+    color: white;
+}
+
+.my-btn {
+    transition: all 0.3s ease;
+    height: 38px;
+}
+
+.my-btn:hover {
+    color: white;
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, .15);
+}
+
+.btn-check:checked+.btn {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 3px #00000033;
+}
+
+.btn-delete{
+    padding: 3px 6px;
+}
+
+.border-card-category {
+    border-left: 10px solid;
+    border-radius: 5px;
+}
+
+.border-card-orcamento {
+    border-left: 25px solid;
+    border-radius: 5px;
+}
+
+.border-card-dashboard {
+    border-left: 5px solid;
+    border-radius: 5px;
+}
+
+.border-card-login {
+    border-left: 50px solid var(--green_success);
+    border-radius: 5px;
+}
+
+.nova-conta-login {
+    color: black
+}
+
+.card-history {
+    background-color: #F8F9FA;
+}
+
+.js-message-error{
+    padding: 5px 0px 0px 5px;
+}

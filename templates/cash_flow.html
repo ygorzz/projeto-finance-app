@@ -1,0 +1,190 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+
+<section class="container pt-5">
+    <div class="pb-3">
+        <h2>Registrar Nova Transação</h2>
+    </div>
+    <div class="row g-4">
+        <div class="col-12 col-md-5">
+            <div class="card border-0 shadow-lg">
+                <div class="card-header bg-success text-center text-light">
+                    <i class="bi bi-coin"></i> Entrada
+                </div>
+                <div class="card-body">
+                    <form action="/cash_flow" method="post" id="form-incomes">
+                        <div class="card-text">
+                            <div class=" mb-4 text-center">
+                                <h5>Registrar Entrada</h5>
+                            </div>
+                            <!-- input para dierenciar o form para registro de entradas do de saídas -->
+                            <input type="hidden" name="form-type" value="income">
+                            <div class="mb-4">
+                                <div class="input-group">
+                                    <span class="input-group-text">Valor</span>
+                                    <input type="text" step="any" aria-label="Valor" id="amount" class="form-control {% if errors.amount_income %} is-invalid {% endif %}"
+                                        placeholder="R$" name="amount">
+                                    <!-- Essa div de message é controlada via JS -->
+                                    <!-- Só aparece quando add a class 'is-invalid' no input -->
+                                    <div class="invalid-feedback js-message-error">
+                                        {% if errors.amount_income %}
+                                            {{errors.amount_income}}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <div class="input-group">
+                                    <span class="input-group-text">Data</span>
+                                    <input type="date" aria-label="Valor" id="date" class="form-control {% if errors.date_income %} is-invalid {% endif %}"
+                                        name="date">
+                                    <!-- Essa div de js-message é controlada via JS -->
+                                    <!-- Só aparece quando add a class 'is-invalid' no input -->
+                                    <div class="invalid-feedback js-message-error">
+                                        {% if errors.date_income %}
+                                            {{errors.date_income}}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="select-ctgs">Categoria</label>
+                                    <select class="form-select {% if errors.category_income %} is-invalid {% endif %}" id="select-ctgs" name="category">
+                                        <option selected disabled value="">Categoria</option>
+                                        {% for category in categories %}
+                                        <option value="{{category.id}}">{{category.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <!-- Essa div de js-message é controlada via JS -->
+                                    <!-- Só aparece quando add a class 'is-invalid' no input -->
+                                    <div class="invalid-feedback js-message-error">
+                                        {% if errors.category_income %}
+                                            {{errors.category_income}}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class=" text-center">
+                            <button type="submit" class="btn btn-success my-btn">Salvar Entrada</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-5">
+            <div class="card border-0 shadow-lg">
+                <div class="card-header bg-danger text-center text-light">
+                    <i class="bi bi-arrow-down-circle"></i> Saída
+                </div>
+                <div class="card-body">
+                    <form action="/cash_flow" method="post" id="form-expenses">
+                        <div class="card-text">
+                            <div class=" mb-4 text-center">
+                                <h5>Registrar Saída</h5>
+                            </div>
+                            <!-- input para dierenciar o form para registro de entradas do de saídas -->
+                            <input type="hidden" name="form-type" value="expense">
+                            <div class="mb-4">
+                                <div class="input-group">
+                                    <span class="input-group-text">Valor</span>
+                                    <input type="text" step="any" aria-label="Valor" id="amount" class="form-control {% if errors.amount_expense %} is-invalid {% endif %}"
+                                        name="amount" placeholder="R$">
+                                    <!-- Essa div de js-message é controlada via JS -->
+                                    <!-- Só aparece quando add a class 'is-invalid' no input -->
+                                    <div class="invalid-feedback js-message-error">
+                                        {% if errors.amount_expense %}
+                                            {{errors.amount_expense}}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <div class="input-group">
+                                    <span class="input-group-text">Data</span>
+                                    <input type="date" aria-label="Valor" id="date" class="form-control {% if errors.date_expense %} is-invalid {% endif %}" name="date">
+                                    <!-- Essa div de js-message é controlada via JS -->
+                                    <!-- Só aparece quando add a class 'is-invalid' no input -->
+                                    <div class="invalid-feedback js-message-error">
+                                        {% if errors.date_expense %}
+                                            {{errors.date_expense}}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <div class="input-group mb-3"> 
+                                    <label class="input-group-text" for="select-ctgs">Categoria</label>
+                                    <select class="form-select {% if errors.category_expense %} is-invalid {% endif %}" id="select-ctgs" name="category">
+                                        <option selected disabled value="">Categoria</option>
+                                        {% for category in categories %}
+                                        <option value="{{category.id}}">{{category.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <!-- Essa div de js-message é controlada via JS -->
+                                    <!-- Só aparece quando add a class 'is-invalid' no input -->
+                                    <div class="invalid-feedback js-message-error">
+                                        {% if errors.category_expense %}
+                                            {{errors.category_expense}}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-danger my-btn">Salvar Saída</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-2" style="max-width: 600px;">
+            <div class="card shadow-lg mx-auto border-0">
+                <div class="card-header bg-destaque text-center text-light"><i class="bi bi-piggy-bank"></i> Saldo Atual
+                </div>
+                <div class="card-body">
+                    <div class="mb-4 text-center p-3">
+                        {% if total_cash != 0 %}
+                        <h5 class="card-text text-destaque">{{brl(total_cash)}}</h5>
+                        {% else %}
+                        <h5 class="card-text text-dark">{{brl(0)}}</h5>
+                        {% endif %}
+                    </div>
+                    <hr>
+                    <div class="card-text text-center">
+                        <div class="card-text">
+                            <h6 class="text-center small">Últimas transações</h6>
+                            <div style="max-height: 150px; overflow-y: auto;" class="px-2">
+                                {% if last_transactions %}
+                                {% for transaction in last_transactions %}
+                                {% if transaction.amount > 0 %}
+                                <p class="mb-1 small"> <i class="bi bi-arrow-up text-success"></i> {{transaction.name}}
+                                    - <b class="text-success">{{brl(transaction.amount)}}</b></p>
+                                {% else %}
+                                <p class="mb-1 small"> <i class="bi bi-arrow-down text-danger"></i> {{transaction.name}}
+                                    - <b class="text-danger">{{brl(transaction.amount)}}</b></p>
+                                {% endif %}
+                                {% endfor %}
+                                {% else %}
+                                <p class="mb-1 small">Ainda não há transações</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+{% endblock%}
+
+{% block script %}
+    <script type="module" src="{{url_for('static', filename='../static/js/modules/cash_flow.js')}}"></script>
+{% endblock %}

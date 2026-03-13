@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+<div class="container d-flex align-items-center justify-content-center" style="min-height: calc(100vh - 98px);">
+    <div class="row w-100 justify-content-center">
+        <div class="col-10 col-md-6 col-lg-4">
+            <div class="card border-card-login p-5 shadow-lg">
+                <div class="card-body">
+                    <div class="card-title fw-bold pb-3 text-center">
+                        <h3>Acesse sua conta</h3>
+                    </div>
+                    <div class="card-text">
+                        <form action="/login" method="post" id="form-login">
+
+                            <div class="mb-4">
+                                <input type="text" name="username" id="username" placeholder="Nome de usuário"
+                                    class="form-control {% if errors.username or errors.user_pass %} is-invalid {% endif %}">
+                                <!-- Essa div de js-message é controlada via JS -->
+                                <!-- Só aparece quando add a class 'is-invalid' no input -->
+                                <div class="invalid-feedback js-message-error" id="message-error">
+                                    {% if errors.username %}
+                                        {{errors.username}}
+                                    {% endif %}
+
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <input type="password" id="password" name="password" placeholder="Senha"
+                                    class="form-control {% if errors.password or errors.user_pass %} is-invalid {% endif %}">
+                                <!-- Essa div de js-message é controlada via JS -->
+                                <!-- Só aparece quando add a class 'is-invalid' no input -->
+                                <div class="invalid-feedback js-message-error">
+                                    {% if errors.password %}
+                                        {{errors.password}}
+                                    {% endif %}
+                                    {% if not errors.password and not errors.username %}
+                                    {% if errors.user_pass %}
+                                        {{errors.user_pass}}
+                                    {% endif %}
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <button type="submit" class="my-btn btn-destaque w-100 border-0 rounded">Entrar</button>
+                            </div>
+                            <div class="mb-3 text-center ">
+                                <a class="nova-conta-login" href="/register">Criar nova conta</a>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script type="module" src="{{url_for('static', filename='../static/js/modules/login.js')}}"></script>
+{% endblock %}

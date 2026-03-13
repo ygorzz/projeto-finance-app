@@ -1,0 +1,62 @@
+{% extends "layout.html"%}
+
+{% block main %}
+
+<section class="container pt-5">
+    <div class="pb-3">
+        <h2>Histórico de Transações</h2>
+    </div>
+    <div class="col">
+        <div class="card border-0 shadow-lg card-history">
+            <div class="card-body" style="max-height: 450px; overflow-y: auto;">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col">Descrição</th>
+                                <th scope="col">Categoria</th>
+                                <th scope="col">Valor</th>
+                                <th scope="col">Data</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-group-divider">
+                            {% if transactions %}
+                            {% for transaction in transactions %}
+                            {% if transaction.amount > 0 %}
+                            <tr class="table-success delete-by-js">
+                                <td><i class="bi bi-arrow-up"></i></td>
+                                <td>{{transaction.category_name}}</td>
+                                <td>{{brl(transaction.amount)}}</td>
+                                <td>{{transaction.date}}</td>
+                                <td><button class="btn border-0 btn-delete" id="btn-delete" data-id="{{transaction.id}}"><i class="bi bi-trash3-fill"></i></button></td>
+                            </tr>
+                            {% else %}
+                            <tr class="table-danger delete-by-js">
+                                <td><i class="bi bi-arrow-down"></i></td>
+                                <td>{{transaction.category_name}}</td>
+                                <td>{{brl(transaction.amount)}}</td>
+                                <td>{{transaction.date}}</td>
+                                <td><button class="btn border-0 btn-delete" id="btn-delete" data-id="{{transaction.id}}"><i class="bi bi-trash3-fill"></i></button></td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                            {% else %}
+                            <tr>
+                                <td colspan="4" class="mb-0">Ainda não há transações feitas</td>
+                            </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock%}
+
+{% block script %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{url_for('static', filename='../static/js/modules/history.js')}}"></script>
+{% endblock %}
