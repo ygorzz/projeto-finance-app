@@ -3,5 +3,3 @@ Flask-Session
 cs50
 Werkzeug
 email-validator
-datetime
-locale

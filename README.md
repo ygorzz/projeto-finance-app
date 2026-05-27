@@ -87,7 +87,7 @@ A aplicação apresenta gráficos dinâmicos para acompanhamento visual da saúd
 
 ```bash
 git clone <url-do-repositorio>
-cd FinanceApp
+cd projeto-finance-app
 ```
 
 ---
